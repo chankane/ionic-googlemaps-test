@@ -2,16 +2,10 @@
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
     <Placemark>
-      <name>MusashiNakahara Station</name>
+      <name>Osaka Airport</name>
+      <description>:]:]:]:]:]:]:]:]</description>
       <Point>
-        <coordinates>139.642000, 35.580775</coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>Seven</name>
-      <description>Useful</description>
-      <Point>
-        <coordinates>139.639804, 35.573565</coordinates>
+        <coordinates>135.438089, 34.789580</coordinates>
       </Point>
     </Placemark>
   </Document>
