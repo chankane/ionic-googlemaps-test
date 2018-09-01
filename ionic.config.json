@@ -1,0 +1,7 @@
+{
+  "name": "KmlTest",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

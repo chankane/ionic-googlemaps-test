@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <Placemark>
+      <name>MusashiNakahara Station</name>
+      <Point>
+        <coordinates>139.642000, 35.580775</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Seven</name>
+      <description>Useful</description>
+      <Point>
+        <coordinates>139.639804, 35.573565</coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>
