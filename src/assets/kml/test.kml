@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
-  <Document>
-    <Placemark>
+  <document>
+    <placemark>
       <name>Osaka Airport</name>
-      <description>:]:]:]:]:]:]:]:]</description>
-      <Point>
+      <description>description</description>
+      <point>
         <coordinates>135.438089, 34.789580</coordinates>
-      </Point>
-    </Placemark>
-  </Document>
+      </point>
+    </placemark>
+  </document>
 </kml>

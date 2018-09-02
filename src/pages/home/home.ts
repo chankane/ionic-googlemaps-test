@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
 import {
   GoogleMaps,
   GoogleMap,
@@ -8,6 +7,7 @@ import {
   GoogleMapsMapTypeId,
   KmlOverlay,
 } from '@ionic-native/google-maps';
+import { LoadingController, Loading } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -21,9 +21,15 @@ export class HomePage {
   myMarker: Marker;
   osaka: Marker;
 
-  constructor( public navCtrl: NavController ) {
-   this.createMap();
-   this.readKml();
+  loading: Loading;
+
+  constructor(public loadingCtrl: LoadingController) {
+    //this.createMap();
+  }
+
+  ionViewDidLoad(){
+    this.createMap();
+    this.readKml();
   }
 
   createMap(){
@@ -45,12 +51,15 @@ export class HomePage {
   }
 
   readKml() {
-    //alert('before');
-    this.map.addKmlOverlay( {
+    this.loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    this.loading.present();
+    this.map.addKmlOverlay({
       url: 'assets/kml/test.kml'
-    } ).then( ( kmlOverlay :KmlOverlay ) => {
-      alert('success');
-    } ).catch( (err: any) => alert('Error :_(') );
+    }).then( ( kmlOverlay :KmlOverlay ) => {
+      this.loading.dismiss();
+    }).catch( ( err: any ) => alert( 'Error :_(' ) );
     //alert('after');
 
     // create a marker (Osaka Airport)
