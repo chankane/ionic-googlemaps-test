@@ -29,7 +29,8 @@ export class HomePage {
 
   ionViewDidLoad(){
     this.createMap();
-    this.readKml();
+    setTimeout( () => this.readKml() , 5000);
+    this.readGroundOverlay();
   }
 
   createMap(){
@@ -59,15 +60,18 @@ export class HomePage {
       url: 'assets/kml/test.kml'
     }).then( ( kmlOverlay :KmlOverlay ) => {
       this.loading.dismiss();
+      
     }).catch( ( err: any ) => alert( 'Error :_(' ) );
-    //alert('after');
+  }
 
-    // create a marker (Osaka Airport)
-    /*this.myMarker = this.map.addMarkerSync({
-      title: 'Haneda Airport',
-      animation: 'BOUNCE',
-      position: new LatLng( 34.789580, 135.438089 ),
-      icon: 'skyblue'
-    });*/
+  readGroundOverlay(){
+    this.map.addGroundOverlay({
+      url: 'assets/imgs/shimane.png',
+      bounds: [
+        { lat: 35.685354, lng: 131.614619 },
+        { lat: 34.205104, lng: 133.394993 }
+      ],
+      //opacity: 0.5
+    });
   }
 }
