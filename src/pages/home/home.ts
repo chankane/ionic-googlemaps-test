@@ -6,8 +6,15 @@ import {
   LatLng,
   GoogleMapsMapTypeId,
   KmlOverlay,
+  LocationService,
+  MyLocation,
+  GoogleMapsEvent,
+  ILatLng,
+  VisibleRegion,
+  HtmlInfoWindow
 } from '@ionic-native/google-maps';
-import { LoadingController, Loading } from 'ionic-angular';
+import { Attraction } from './attraction';
+import { AttractionsFactory } from './attractions-factory';
 
 @Component({
   selector: 'page-home',
@@ -15,63 +22,62 @@ import { LoadingController, Loading } from 'ionic-angular';
 })
 export class HomePage {
 
-  // readonly is const(final)
-  readonly CENTER: LatLng = new LatLng( 35.549415, 139.779842 );
+  readonly CENTER: ILatLng = new LatLng ( 35.560615, 139.718146 );
   map: GoogleMap;
-  myMarker: Marker;
-  osaka: Marker;
+  me: Marker;
 
-  loading: Loading;
+  constructor () {}
 
-  constructor(public loadingCtrl: LoadingController) {
-    //this.createMap();
-  }
-
-  ionViewDidLoad(){
-    this.createMap();
-    setTimeout( () => this.readKml() , 5000);
-    this.readGroundOverlay();
+  ionViewDidLoad () {
+    this.createMap ();
+    this.searchLocation();
+    this.readAttractions();
   }
 
   createMap(){
-    // create a map
-    this.map = GoogleMaps.create('map_canvas', {
-      mapType: GoogleMapsMapTypeId.SATELLITE,
+    this.map = GoogleMaps.create ('map_canvas', {
       camera: {
         target: this.CENTER,
-        zoom: 5
+        zoom: 18
       }
     });
+  }
 
-    // create a marker
-    this.myMarker = this.map.addMarkerSync({
-      title: 'Haneda Airport',
-      animation: 'BOUNCE',
+  searchLocation(){
+    this.me = this.map.addMarkerSync({
+      title: 'I am here',
       position: this.CENTER
     });
   }
 
-  readKml() {
-    this.loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+  readAttractions(){
+    new AttractionsFactory().createAttractions().forEach( ( element: Attraction ) => {
+      let htmlInfoWindow = new HtmlInfoWindow();
+      let frame: HTMLElement = document.createElement('div');
+      frame.innerHTML = [
+        '<h3>',
+        element.name,
+        '</h3>',
+        '<iframe width="150" src="',
+        element.youtubeUrl,
+        '" frameborder="0" encrypted-media"></iframe>',
+        '<table border="1">',
+        '<tr><td>wait time</td><td>',
+        element.waitTime,
+        '</td></tr>',
+        '</table>'
+      ].join("");
+      htmlInfoWindow.setContent( frame, { width: "150px" } );
+      this.map.addMarker({
+        position: element.latLng,
+        icon: 'blue',
+        disableAutoPan: true
+      }).then( ( marker: Marker ) => {
+        marker.on( GoogleMapsEvent.MARKER_CLICK ).subscribe( () => {
+          htmlInfoWindow.open( marker );
+        });
+      });
     });
-    this.loading.present();
-    this.map.addKmlOverlay({
-      url: 'assets/kml/test.kml'
-    }).then( ( kmlOverlay :KmlOverlay ) => {
-      this.loading.dismiss();
-      
-    }).catch( ( err: any ) => alert( 'Error :_(' ) );
   }
 
-  readGroundOverlay(){
-    this.map.addGroundOverlay({
-      url: 'assets/imgs/shimane.png',
-      bounds: [
-        { lat: 35.685354, lng: 131.614619 },
-        { lat: 34.205104, lng: 133.394993 }
-      ],
-      //opacity: 0.5
-    });
-  }
 }
